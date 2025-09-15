@@ -1,0 +1,4 @@
+### GET request to trigger getDataForUserAndProject
+
+GET http://localhost:4004/odata/v4/nfa-form/getbpa
+Accept: application/json

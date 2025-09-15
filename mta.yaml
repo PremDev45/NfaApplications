@@ -1,0 +1,92 @@
+_schema-version: 3.3.0
+ID: NfaApplication
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: NfaApplication-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: NfaApplication-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
+- name: NfaApplication-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: NfaApplication-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: NfaApplication-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: NfaApplication-destination-service
+    parameters:
+      content-target: true
+  - name: NfaApplication_html_repo_host
+    parameters:
+      service-key:
+        name: NfaApplication_html_repo_host-key
+  - name: uaa_NfaApplication
+    parameters:
+      service-key:
+        name: uaa_NfaApplication-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: NfaAppRouter_NfaApplication_html_repo_host
+          ServiceInstanceName: NfaApplication-html5-app-host-service
+          ServiceKeyName: NfaApplication_html_repo_host-key
+          sap.cloud.service: NfaAppRouter
+        - Authentication: OAuth2UserTokenExchange
+          Name: NfaAppRouter_uaa_NfaApplication
+          ServiceInstanceName: NfaApplication-xsuaa-service
+          ServiceKeyName: uaa_NfaApplication-key
+          sap.cloud.service: NfaAppRouter
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+resources:
+- name: NfaApplication-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: NfaApplication-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+    service: destination
+    service-name: NfaApplication-destination-service
+    service-plan: lite
+- name: NfaApplication_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: NfaApplication-html5-app-host-service
+    service-plan: app-host
+- name: uaa_NfaApplication
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: NfaApplication-xsuaa-service
+    service-plan: application
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
