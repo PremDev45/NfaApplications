@@ -1,0 +1,1 @@
+{"version":3,"file":"WorkflowHistory.js","names":["sap","ui","define","MessageToast","onPress","oEvent","m","GroupHeaderListItem","title","key"],"sources":["WorkflowHistory-dbg.js"],"mappings":"AAAAA,IAAIC,GAAGC,OAAO,CACV,sBACD,SAASC,GACR,aAEA,MAAO,CACHC,QAAS,SAASC,GACd,SACG,OAAO,IAAIL,IAAIM,EAAEC,oBAAoB,CAChDC,MAAO,SAASH,EAAOI,KAEnB,EAER","ignoreList":[]}

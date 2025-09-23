@@ -1,4 +1,4 @@
 ### GET request to trigger getDataForUserAndProject
 
-GET http://localhost:4004/odata/v4/nfa-form/getbpa
+GET http://localhost:46661/odata/v4/nfa-approval/ApproversAction(NfaNumber='Doc123',Action='Reject')
 Accept: application/json

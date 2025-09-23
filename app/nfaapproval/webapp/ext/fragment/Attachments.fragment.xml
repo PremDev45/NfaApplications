@@ -1,0 +1,117 @@
+<core:FragmentDefinition xmlns:upload="sap.m.upload" xmlns:plugins="sap.m.plugins" xmlns:core="sap.ui.core"  xmlns="sap.m" xmlns:macros="sap.fe.macros"  >
+	<VBox id="appr_IDGenVBox" core:require="{ handler: 'nfaapproval/ext/fragment/Attachments'}">
+					<Table
+				id="apprtable-uploadSet"
+				width="auto"
+				fixedLayout="false"
+				inset="true"
+				autoPopinMode="true"
+				sticky="HeaderToolbar,ColumnHeaders"
+					items="{
+								path: 'NfaDetailsToNfaAttachments',
+								parameters: {
+									$orderby: 'createdAt desc'
+								},
+								templateShareable: false}"
+				>
+
+				<headerToolbar>
+					<OverflowToolbar id="appr_IDGenOverflowToolbar1">
+						<ToolbarSpacer id="apprToolbarSpacer"/>
+						<ToolbarSeparator id="appr_IDGenToolbarSeparator" />
+
+						<!-- Use the UploadButtonPlaceholder to add the UploadButton to the toolbar -->
+						<upload:ActionsPlaceholder id="appruploadButton" placeholderFor="UploadButtonPlaceholder" />
+
+					</OverflowToolbar>
+				</headerToolbar>
+
+				<dependents>
+					<plugins:UploadSetwithTable id="appr_IDGenUploadSetwithTable" 
+						beforeUploadStarts="handler.onBeforeUploadStart"
+						uploadUrl=""
+						httpRequestMethod="Put"
+						multiple="true"
+						beforeInitiatingItemUpload="handler.beforeInitiatingItemUpload"
+						uploadCompleted="onUploadCompleted"
+						onActivated="handler.onPluginActivated"
+						cloudFilePickerEnabled="true"
+						uploadEnabled="false"
+						actions="uploadButton">
+						<plugins:rowConfiguration>
+							<upload:UploadItemConfiguration id="appr_IDGenUploadItemConfiguration1" 
+							fileNamePath="FileName"
+								mediaTypePath="MediaType"
+								urlPath="Url"
+								fileSizePath="Size">
+								</upload:UploadItemConfiguration>
+						</plugins:rowConfiguration>
+						<plugins:uploader>
+						<upload:UploaderTableItem id="appr_IDGenUploaderTableItem" httpRequestMethod="Put"></upload:UploaderTableItem>
+						</plugins:uploader>
+						 
+						</plugins:UploadSetwithTable>
+				</dependents>
+
+				<columns>
+					<Column id="apprfileName" importance="High">
+						<header>
+							<Label id="appr_IDGenLabel" text="File Name" />
+						</header>
+					</Column>
+					<Column id="apprfileSize">
+						<header>
+							<Label id="appr_IDGenLabel4" text="File Size" />
+						</header>
+					</Column>
+					<Column id="apprlastModified">
+						<header>
+							<Label id="appr_IDGenLabel5" text="Last Modified" />
+						</header>
+					</Column>
+					<Column id="appractionButton" importance="High" />
+				</columns>
+	
+	
+				<items>
+					<ColumnListItem id="appr_IDGenColumnListItem1"
+					>
+	<cells>
+							<HBox id="appr_IDGenHBox">
+							
+								<core:Icon id="appr_IDGenIcon"
+									src="{parts: ['MediaType','FileName'], formatter: 'handler.getIconSrc' }"
+							 class="sapMUSTItemImage sapMUSTItemIcon"
+								/>
+								<VBox id="appr_IDGenVBox1"
+									class="sapUiTinyMargin sapUiSmallMarginBegin"
+								>
+									<Link id="appr_IDGenLink"
+										text="{FileName}"
+										press="handler.openPreview"
+										class="sapUiTinyMarginBottom"
+									/>
+									<Text id="appr_IDGenText" text="{MediaType}" />
+								</VBox>
+							</HBox>
+							<Text id="appr_IDGenText6" text="{Size}" />
+							<VBox id="appr_IDGenVBox2">
+								<Text id="appr_IDGenText14" text="{createdBy}" />
+								<Text id="appr_IDGenText15"
+									class="sapUiTinyMarginTop"
+									text="{createdAt}"
+								/>
+							</VBox>
+							<Button id="appr_IDGenButton"
+							enabled ="false"
+								class="sapUiTinyMarginBegin"
+								type="Transparent"
+								icon="sap-icon://decline"
+								press="handler.onRemoveHandler"
+							/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:commons="sap.suite.ui.commons" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="appr_IDGenVBox3" core:require="{ handler: 'nfaapproval/ext/fragment/Justification'}">
+		 <Dialog id="appr_IDGenDialog"
+        title="Justification"
+		draggable="true"
+		resizable="true"
+        contentWidth="500px"
+		>
+		<commons:Timeline 
+			id="appridTimeline"
+			enableDoubleSided="true"
+			growingThreshold="0"
+			sortOldestFirst="true"
+			content="{path: 'NfaDetailsToNfaCommentsHistory'}">
+		<commons:content>
+			<commons:TimelineItem 
+					id="appridTemplateItem"
+					dateTime="{createdAt}"
+					text="{Comments}"
+					userName="{createdBy}">
+			</commons:TimelineItem >
+		</commons:content>
+	</commons:Timeline >
+	 <endButton>
+        <Button id="appr_IDGenButton1" text="Close" press="handler.onCloseJustification"/>
+    </endButton>
+    </Dialog>
+	</VBox>
+</core:FragmentDefinition>

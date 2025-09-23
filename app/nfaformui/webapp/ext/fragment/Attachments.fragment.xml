@@ -1,0 +1,71 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:upload="sap.m.upload" xmlns:macros="sap.fe.macros">
+	<VBox core:require="{ handler: 'nfaformui/ext/fragment/Attachments'}">
+		<upload:UploadSet
+					id="uploadSet"
+					httpRequestMethod="Put"
+					instantUpload="false"
+					uploadEnabled="false"
+					mode="None"
+					showIcons="true"
+					afterItemAdded="handler.onAfterItemAdded"
+					uploadCompleted="handler.onUploadCompleted"
+					items="{
+								path: 'NfaDetailsToNfaAttachments',
+								parameters: {
+									$orderby: 'createdAt desc'
+								},
+								templateShareable: false}"
+				>
+					<upload:toolbar>
+					</upload:toolbar>
+					<upload:items>
+						<upload:UploadSetItem
+						id="ddd"
+							fileName="{FileName}"
+							mediaType="{MediaType}"
+							url="{='/odata/v4/nfa-form'+${Url}}"
+							thumbnailUrl="{
+								path: 'MediaType',
+								formatter: 'handler.formatThumbnailUrl'
+							}"
+							
+							enabledRemove="{= !${IsActiveEntity}}"
+							selected="false"
+							visibleRemove="true"
+							removePressed="handler.onRemovePressed"
+							visibleEdit="false"
+						>
+							<upload:attributes>
+								<ObjectAttribute
+								id="dd"
+									title="Uploaded By"
+									text="{createdBy}"
+									active="false"
+								/>
+								<ObjectAttribute
+								id="dd22"
+									title="Uploaded on"
+									text="{createdAt}"
+									active="false"
+								/>
+								<ObjectAttribute
+								id="dddw2"
+
+									title="File Type"
+									text="{MediaType}"
+									active="false"
+									visible="false"		
+								/>
+								<ObjectAttribute
+								id="dd22a"
+									title="File Size"
+									text="{Size}"
+									active="false"
+									visible="false"
+								/>
+							</upload:attributes>
+						</upload:UploadSetItem>
+					</upload:items>
+				</upload:UploadSet>
+	</VBox>
+</core:FragmentDefinition>

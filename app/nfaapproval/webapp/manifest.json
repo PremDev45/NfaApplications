@@ -1,0 +1,303 @@
+{
+  "_version": "1.76.0",
+  "sap.app": {
+    "id": "nfaapproval",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.18.6",
+      "toolsId": "a7cee01c-ee98-46f1-8efe-d8680205b2f9"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/nfa-approval/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "nfaapprovalsem-display": {
+          "semanticObject": "nfaapprovalsem",
+          "action": "display",
+          "title": "{{nfaapprovalsem-display.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.140.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "nfaapproval.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "NfaDetailsList",
+          "target": "NfaDetailsList"
+        },
+        {
+          "pattern": "NfaDetails({key}):?query:",
+          "name": "NfaDetailsObjectPage",
+          "target": "NfaDetailsObjectPage"
+        },
+        {
+          "name": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage",
+          "pattern": "NfaDetails({key})/NfaDetailsToNfaVendorData({NfaDetailsToNfaVendorDataKey}):?query:",
+          "target": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage"
+        }
+      ],
+      "targets": {
+        "NfaDetailsList": {
+          "type": "Component",
+          "id": "NfaDetailsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/NfaDetails",
+              "variantManagement": "Page",
+              "navigation": {
+                "NfaDetails": {
+                  "detail": {
+                    "route": "NfaDetailsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "selectionMode": "None",
+                    "selectAll": false,
+                    "selectionLimit": 0,
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                }
+              },
+              "initialLoad": "Enabled"
+            }
+          }
+        },
+        "NfaDetailsObjectPage": {
+          "type": "Component",
+          "id": "NfaDetailsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/NfaDetails",
+              "content": {
+                "body": {
+                  "sections": {
+                    "Attachments": {
+                      "template": "nfaapproval.ext.fragment.Attachments",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "VendorResponseDetails"
+                      },
+                      "title": "Attachments"
+                    },
+                    "WorkflowHistory": {
+                      "template": "nfaapproval.ext.fragment.WorkflowHistory",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Justification1"
+                      },
+                      "title": "Workflow History"
+                    },
+                    "Justification1": {
+                      "template": "nfaapproval.ext.fragment.Justification1",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "WorkflowHistory"
+                      },
+                      "title": "Justification",
+                      "actions": {
+                        "commenthistory1": {
+                          "press": "nfaapproval.ext.fragment.Justification.onPress",
+                          "visible": true,
+                          "enabled": true,
+                          "text": "Comment History"
+                        }
+                      }
+                    }
+                  }
+                },
+                "footer": {
+                  "actions": {
+                    "Approve": {
+                      "press": "nfaapproval.ext.controller.Approve.Approve",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Approve"
+                    },
+                    "Reject": {
+                      "press": "nfaapproval.ext.controller.Approve.Reject",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Reject",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Approve"
+                      }
+                    },
+                    "NedForClarification": {
+                      "press": "nfaapproval.ext.controller.Approve.NedForClarification",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Need For Clarification",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Reject"
+                      }
+                    }
+                  }
+                }
+              },
+              "navigation": {
+                "NfaDetailsToNfaVendorData": {
+                  "detail": {
+                    "route": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.FieldGroup#Justification": {
+                  "actions": {
+                    "commenthistory": {
+                      "press": "nfaapproval.ext.fragment.Justification.onPress",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Comment History"
+                    }
+                  }
+                },
+                "NfaDetailsToNfaEventHistory/@com.sap.vocabularies.UI.v1.LineItem#EventHistory": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                },
+                "NfaDetailsToNfaVendorData/@com.sap.vocabularies.UI.v1.LineItem#VendorResponseDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "NfaDetails_NfaDetailsToNfaVendorDataObjectPage": {
+          "type": "Component",
+          "id": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/NfaDetails/NfaDetailsToNfaVendorData",
+              "controlConfiguration": {
+                "NfaVendorDataToNfaVendorItemsDetails/@com.sap.vocabularies.UI.v1.LineItem#ItemDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#nfaapproval::NfaDetailsObjectPage": {
+            "controllerName": "nfaapproval.ext.controller.ObjectPage"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "NfaAppRouter"
+  }
+}
