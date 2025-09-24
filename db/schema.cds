@@ -44,6 +44,7 @@ entity NfaDetails {
         StatusInd                                  : Integer; //used for criticality rep
         CreatedBy                                  : String;
         TaskId                                     : String;
+        WorkFlowId                              : String;
         //missalanious//
 
 
@@ -78,7 +79,6 @@ entity NfaDetails {
         // NumberOfVendorsInvited                     : String;
         // TotalLevelsOfApproval                      : String(2);
         // CurrentLevelOfApproval                     : String(2);
-        // SapWorkitemId                              : String;
         // SubmittedBy                                : String;
         // SubmittedDate                              : String;
         // ExistingPOARCContractValue                 : String;

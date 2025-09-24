@@ -7,6 +7,9 @@ module.exports = cds.service.impl(async function () {
 ///dhanush gangatkar
 this.on('ApproversAction',async function (req) {
     debugger
+
+    const BpaDest = await cds.connect.to("NfaBpaDestLev");
+
     console.log(req);
     if(req.data.Action == 'Approve'){
         let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
@@ -22,8 +25,35 @@ this.on('ApproversAction',async function (req) {
         let updateNextAprovers =await UPDATE(NfaWorkflowHistory).set({Status:'Pending'}).where({level:currentApprovers[0].level+1,NfaNumber:req.data.NfaNumber});
         if(!updateNextAprovers){
             await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Approved',Comments:null})
+            const body = {
+    "executionId": nfadetupd.WorkFlowId,
+    "inputs": {
+        "nextlevel": 0,
+        "proceed": false
+    }
+};
+const BpaRes = await BpaDest.post('/',body);
+console.log(BpaRes);
         }else{
             await UPDATE(NfaDetails,req.data.NfaNumber).with({Comments:null});
+             const body = {
+               
+    "executionId": nfadetupd.WorkFlowId,
+    "inputs": {
+        "nextlevel": currentApprovers[0].level+1,
+        "proceed": true
+    }
+};
+// const BpaRes = await BpaDest.send({
+//   method: "POST",
+//   url: "/unified/v1/triggers/api/us10.b201b415trial.nfabpa.nextLevel",
+//   body: body,
+//    headers: {
+//     "Content-Type": "application/json"
+//   }
+// });
+const BpaRes = await BpaDest.post('/',body);
+console.log(BpaRes);
         }
         return "Done"
     }else if(req.data.Action == 'Reject'){
@@ -37,7 +67,15 @@ let currentApprovers =await  SELECT.from(NfaWorkflowHistory).where({NfaNumber:re
              DaysTaken:DaysTaken }
         await UPDATE(NfaWorkflowHistory).set(currentApproversUpdBody).where({level:currentApprovers[0].level,NfaNumber:req.data.NfaNumber})
         await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Rejected',Comments:null})
-        
+         const body = {
+    "executionId": nfadetupd.WorkFlowId,
+    "inputs": {
+        "nextlevel": 0,
+        "proceed": false
+    }
+};
+const BpaRes = await BpaDest.post('/',body);
+console.log(BpaRes);
         return "Done"
     }else if(req.data.Action == 'Need For Clarification'){
 let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
@@ -52,7 +90,20 @@ debugger
          let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
     await INSERT({NfaNumber:req.data.NfaNumber,Comments:nfadetupd.Comments}).into(NfaCommentsHistory);
     if(nfadetupd.Status == 'New'){
-await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Pending For Approval',Comments:null});
+debugger
+ const BpaDest = await cds.connect.to("NfaBpaDest");
+        const body = {
+    "definitionId": "us10.b201b415trial.nfabpa.nFABA",
+    "context": {
+        "nfanumber": req.data.NfaNumber,
+        "proceed": true
+    }
+}
+        const BpaRes = await BpaDest.post('/workflow/rest/v1/workflow-instances',body);
+           
+
+
+await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Pending For Approval',Comments:null,WorkFlowId:BpaRes.id});
     await UPDATE(NfaWorkflowHistory).set({ Status: "Pending" }).where({NfaNumber:req.data.NfaNumber,level:1});
     }else{
 await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Pending For Approval',Comments:null});

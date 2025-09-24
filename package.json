@@ -40,10 +40,10 @@
           "destination": "NfaBpaDest"
         }
       },
-      "NfaBpaDestLev2": {
+      "NfaBpaDestLev": {
         "kind": "odata",
         "credentials": {
-          "destination": "NfaBpaDestLev2"
+          "destination": "NfaBpaDestLev"
         }
       }
     }
