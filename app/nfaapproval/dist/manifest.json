@@ -144,10 +144,17 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "GridTable",
+                    "selectionMode": "None",
+                    "selectAll": false,
+                    "selectionLimit": 0,
+                    "personalization": {
+                      "filter": false
+                    }
                   }
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },
@@ -174,9 +181,55 @@
                       "template": "nfaapproval.ext.fragment.WorkflowHistory",
                       "position": {
                         "placement": "After",
-                        "anchor": "Justification"
+                        "anchor": "Justification1"
                       },
                       "title": "Workflow History"
+                    },
+                    "Justification1": {
+                      "template": "nfaapproval.ext.fragment.Justification1",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "WorkflowHistory"
+                      },
+                      "title": "Justification",
+                      "actions": {
+                        "commenthistory1": {
+                          "press": "nfaapproval.ext.fragment.Justification.onPress",
+                          "visible": true,
+                          "enabled": true,
+                          "text": "Comment History"
+                        }
+                      }
+                    }
+                  }
+                },
+                "footer": {
+                  "actions": {
+                    "Approve": {
+                      "press": "nfaapproval.ext.controller.Approve.Approve",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Approve"
+                    },
+                    "Reject": {
+                      "press": "nfaapproval.ext.controller.Approve.Reject",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Reject",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Approve"
+                      }
+                    },
+                    "NedForClarification": {
+                      "press": "nfaapproval.ext.controller.Approve.NedForClarification",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Need For Clarification",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Reject"
+                      }
                     }
                   }
                 }
@@ -185,6 +238,34 @@
                 "NfaDetailsToNfaVendorData": {
                   "detail": {
                     "route": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.FieldGroup#Justification": {
+                  "actions": {
+                    "commenthistory": {
+                      "press": "nfaapproval.ext.fragment.Justification.onPress",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Comment History"
+                    }
+                  }
+                },
+                "NfaDetailsToNfaEventHistory/@com.sap.vocabularies.UI.v1.LineItem#EventHistory": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                },
+                "NfaDetailsToNfaVendorData/@com.sap.vocabularies.UI.v1.LineItem#VendorResponseDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
                   }
                 }
               }
@@ -198,8 +279,27 @@
           "options": {
             "settings": {
               "navigation": {},
-              "contextPath": "/NfaDetails/NfaDetailsToNfaVendorData"
+              "contextPath": "/NfaDetails/NfaDetailsToNfaVendorData",
+              "controlConfiguration": {
+                "NfaVendorDataToNfaVendorItemsDetails/@com.sap.vocabularies.UI.v1.LineItem#ItemDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                }
+              }
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#nfaapproval::NfaDetailsObjectPage": {
+            "controllerName": "nfaapproval.ext.controller.ObjectPage"
           }
         }
       }

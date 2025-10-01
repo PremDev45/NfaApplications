@@ -1,5 +1,6 @@
 using db from '../db/schema';
 
+
 service NfaForm {
     @odata.draft.enabled
     entity NfaDetails            as projection on db.NfaDetails where CreatedBy = 'prem.k@peolsolutions.com';

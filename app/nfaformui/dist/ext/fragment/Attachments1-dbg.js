@@ -4,7 +4,7 @@ sap.ui.define([
     'use strict';
 
     return {
-              onPress: function(oEvent) {
+        onPress: function(oEvent) {
             MessageToast.show("Custom handler invoked.");
         },
         getIconSrc:async function(oEvent) {

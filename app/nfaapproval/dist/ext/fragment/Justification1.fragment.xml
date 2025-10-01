@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox>
+		<TextArea id="GenTextArea"  value="{Comments}"
+    rows="5"
+    width= "100%"
+    editable= "true"
+    placeholder= "Enter your justification..."></TextArea>
+	</VBox>
+</core:FragmentDefinition>

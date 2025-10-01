@@ -63,7 +63,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.128.0",
+      "minUI5Version": "1.140.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -170,14 +170,6 @@
               "content": {
                 "body": {
                   "sections": {
-                    "Attachments": {
-                      "template": "nfaformui.ext.fragment.Attachments",
-                      "position": {
-                        "placement": "After",
-                        "anchor": "VendorResponseDetails"
-                      },
-                      "title": "Attachments"
-                    },
                     "WorkflowHistory": {
                       "template": "nfaformui.ext.fragment.WorkflowHistory",
                       "position": {
@@ -185,6 +177,24 @@
                         "anchor": "Justification"
                       },
                       "title": "Workflow History"
+                    },
+                    "Attachments1": {
+                      "template": "nfaformui.ext.fragment.Attachments1",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "VendorResponseDetails"
+                      },
+                      "title": "Attachments"
+                    }
+                  }
+                },
+                "footer": {
+                  "actions": {
+                    "SendForApproval": {
+                      "press": "nfaformui.ext.controller.SendForApproval.SendForApproval",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Send For Approval"
                     }
                   }
                 }
@@ -193,6 +203,34 @@
                 "NfaDetailsToNfaVendorData": {
                   "detail": {
                     "route": "NfaDetails_NfaDetailsToNfaVendorDataObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.FieldGroup#Justification": {
+                  "actions": {
+                    "commenthistory": {
+                      "press": "nfaformui.ext.fragment.Justification.onPress",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Comment History"
+                    }
+                  }
+                },
+                "NfaDetailsToNfaEventHistory/@com.sap.vocabularies.UI.v1.LineItem#EventHistory": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                },
+                "NfaDetailsToNfaVendorData/@com.sap.vocabularies.UI.v1.LineItem#VendorResponseDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
                   }
                 }
               }
@@ -206,7 +244,17 @@
           "options": {
             "settings": {
               "navigation": {},
-              "contextPath": "/NfaDetails/NfaDetailsToNfaVendorData"
+              "contextPath": "/NfaDetails/NfaDetailsToNfaVendorData",
+              "controlConfiguration": {
+                "NfaVendorDataToNfaVendorItemsDetails/@com.sap.vocabularies.UI.v1.LineItem#ItemDetails": {
+                  "tableSettings": {
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": false
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -217,6 +265,9 @@
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ObjectPage.ObjectPageController#nfaformui::NfaDetailsObjectPage": {
             "controllerName": "nfaformui.ext.controller.Nfaformobjectpage"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#nfaformui::NfaDetails_NfaDetailsToNfaVendorDataObjectPage": {
+            "controllerName": "nfaformui.ext.controller.Vendordataobjpage"
           }
         }
       }

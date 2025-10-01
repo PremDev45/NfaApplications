@@ -31,18 +31,7 @@ annotate service.NfaDetails with @(
             Label : 'General Details',
             ID : 'GeneralDetails1',
             Facets : [
-                {
-                    $Type : 'UI.CollectionFacet',
-                    Label : ' ',
-                    ID : '_',
-                    Facets : [
-                        {
-                            $Type : 'UI.ReferenceFacet',
-                            ID : 'GeneralDetails',
-                            Target : '@UI.FieldGroup#GeneralDetails',
-                        },
-                    ],
-                },
+               
                 {
                     $Type : 'UI.ReferenceFacet',
                     Label : 'Header Level Information',
@@ -67,71 +56,7 @@ annotate service.NfaDetails with @(
     UI.FieldGroup #GeneralDetails : {
         $Type : 'UI.FieldGroupType',
          Data : [
-            {
-                $Type : 'UI.DataField',
-                Label : 'SBU Unit Location',
-                Value : SBUUnitLocation,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Amendment In Existing Po ARC Contract',
-                Value : AmendmentInExistingPoArcContract,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Pricing In Business Plan If Applicable',
-                Value : PricingInBusinessPlanIfApplicable,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Price Justification',
-                Value : PriceJustification,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Deviations from Group Philosophy Cardinal Rules',
-                Value : DeviationsfromGroupPhilosophyCardinalRules,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'List of Deviation',
-                Value : ListOfDeviation,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Penalty Clause for Quality',
-                Value : PenaltyClauseForQuality,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Penalty Criteria',
-                Value : PenaltyCriteria,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Rationale if not L1',
-                Value : RationaleIfNotL1,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'NFA ID',
-                Value : NFAID,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Approving Plant',
-                Value : ApprovingPlant,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Existing Po Number',
-                Value : ExistingPoNumber,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : Comments,
-                Label : 'Comments',
-            },
+           
         ],
     },
     UI.FieldGroup #HeaderLevelInformation : {
@@ -139,48 +64,68 @@ annotate service.NfaDetails with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Value : AmendmentValueTotalNfaAmount,
-                Label : 'Amendment Value Total NFA Amount',
+                Value : ProjectDescription,
+                Label : 'Project Description',
             },
             {
                 $Type : 'UI.DataField',
-                Value : Budget,
-                Label : 'Budget',
+                Value : SubjectofProposalOROrder,
+                Label : 'Subject of Proposal / Order',
             },
             {
                 $Type : 'UI.DataField',
-                Value : RationalForNotDoingAuction,
-                Label : 'Rational for not Doing Auction',
+                Value : BaseLineSpend,
+                Label : 'Baseline Spend',
             },
             {
                 $Type : 'UI.DataField',
-                Value : IsAnyNewInitiativeBestpractices,
-                Label : 'Is any New Initiative Best Practices',
+                Value : ProjectCurrencyORBaseCurrency,
+                Label : 'Project Currency / Base Currency',
             },
             {
                 $Type : 'UI.DataField',
-                Value : NegotiationCommittee,
-                Label : 'Negotiation Committee',
+                Value : FinalProposedValue,
+                Label : 'Final Proposed Value',
             },
             {
                 $Type : 'UI.DataField',
-                Value : IsThereAnyImportSupplyUnderThisProposal,
-                Label : 'Is There any Import Supply Under This Proposal',
+                Value : SavingsAchievedBtwInitialAndFinalQuote,
+                Label : 'Savings Achieved Btw Initial & Final Quote',
             },
             {
                 $Type : 'UI.DataField',
-                Value : LastPurchasePriceClpp,
-                Label : 'Last Purchase Price CLPP',
+                Value : RfpNumber,
+                Label : 'RFP Number',
             },
             {
                 $Type : 'UI.DataField',
-                Value : SavingIncreaseAmountOnLpp,
-                Label : 'Saving Increase Amount On LPP',
+                Value : RfpPublishDate,
+                Label : 'RFP Publish Date',
             },
             {
                 $Type : 'UI.DataField',
-                Value : PricesAre,
-                Label : 'Prices Are',
+                Value : TimeTakenForFinalizationDASHInDAYS,
+                Label : 'Time Taken For Finalization - In DAYS',
+            },
+             {
+                $Type : 'UI.DataField',
+                Value : SBUUnitLocation,
+                Label : 'SBU Unit Location',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : AuctionDone,
+                Label : 'Auction Done',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ApprovingPlant,
+                Label : 'Approving Plant',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : TaskId,
+                Label : 'Task Id',
             },
         ],
     },
@@ -199,28 +144,23 @@ annotate service.NfaEventHistory with @(
     UI.LineItem #EventHistory : [
         {
             $Type : 'UI.DataField',
-            Value : EventNo,
-            Label : 'Event No',
+            Value : round,
+            Label : 'Round',
         },
         {
             $Type : 'UI.DataField',
-            Value : Number,
-            Label : 'Number',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : Date,
-            Label : 'Date',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : NumberOfVendorsParticipated,
-            Label : 'Number of Vendors Participated',
+            Value : idd,
+            Label : 'Vendor Name',
         },
         {
             $Type : 'UI.DataField',
             Value : L1AmountObtained,
             Label : 'L1 Amount Obtained',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : Date,
+            Label : 'Date',
         },
     ]
 );
@@ -262,11 +202,6 @@ annotate service.NfaVendorData with @(
             Value : DiscountPercentage,
             Label : 'Discount Percentage',
         },
-        {
-            $Type : 'UI.DataField',
-            Value : Rank,
-            Label : 'Rank',
-        },
     ],
     UI.Facets : [
         {
@@ -277,7 +212,7 @@ annotate service.NfaVendorData with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Terms and Conditions',
+            Label : 'Approvals, Dependencies & Compliance',
             ID : 'TermsandConditions',
             Target : '@UI.FieldGroup#TermsandConditions',
         },
@@ -289,48 +224,48 @@ annotate service.NfaVendorData with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Item Level Info',
+            Label : 'Terms, Penalties & Legal Conditions',
             ID : 'ItemLevelInfo',
             Target : '@UI.FieldGroup#ItemLevelInfo',
         },
     ],
     UI.FieldGroup #VendorResponse : {
         $Type : 'UI.FieldGroupType',
-         Data : [
+        Data : [
             {
                 $Type : 'UI.DataField',
-                Value : ContractPeriod,
-                Label : 'Contract Period',
+                Value : PricingInBusinessPlanIfApplicable,
+                Label : 'Pricing In Business Plan (If Applicable)',
             },
             {
                 $Type : 'UI.DataField',
-                Value : OrderTypePartiesContactedAndTechnicallyAccepted,
-                Label : 'Order Type Parties Contacted And Technically Accepted ( Rational If On Single Vendor Basis)',
+                Value : PriceJustification,
+                Label : 'Price Justification',
             },
             {
                 $Type : 'UI.DataField',
-                Value : IsVendorDependency,
-                Label : 'Is Vendor dependency > 50%',
+                Value : RationaleIfNotL1,
+                Label : 'Rationale If Not L1',
             },
             {
                 $Type : 'UI.DataField',
-                Value : VendorsLatestAvailableTurnover,
-                Label : 'Vendors Latest Available Turnover ( In INR Cr.) ₹',
+                Value : RationalForNotDoingAuction,
+                Label : 'Rational For not Doing Auction',
             },
             {
                 $Type : 'UI.DataField',
-                Value : TotalVendorSpendforCurrentFY,
-                Label : 'Total Vendor Spend For Current FY (In INR Cr.) (Total Open Value As On NFA Date + Proposed Annual Value)₹',
+                Value : IsAnyNewInitiativeBestpractices,
+                Label : 'Is Any New Initiative Best practices',
             },
             {
                 $Type : 'UI.DataField',
-                Value : ShortlistedPartiesCredentialsBackground,
-                Label : 'Shortlisted Parties Credentials/Background',
+                Value : NegotiationCommittee,
+                Label : 'Negotiation Committee',
             },
             {
                 $Type : 'UI.DataField',
-                Value : InternalSLAsKPIsForTheContract,
-                Label : 'Internal SLAs/KPIs For The Contract',
+                Value : LastPurchasePriceClpp,
+                Label : 'Last Purchase Price Clpp',
             },
             {
                 $Type : 'UI.DataField',
@@ -339,8 +274,13 @@ annotate service.NfaVendorData with @(
             },
             {
                 $Type : 'UI.DataField',
-                Value : FTAEPCGAnyOtherBenefitAvailedForDutySaving,
-                Label : 'FTA/EPCG/ Any Other Benefit Availed For Duty Saving',
+                Value : Budget,
+                Label : 'Budget',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : AmendmentValueTotalNfaAmount,
+                Label : 'Amendment Value Total Nfa Amount',
             },
             {
                 $Type : 'UI.DataField',
@@ -354,18 +294,98 @@ annotate service.NfaVendorData with @(
             },
             {
                 $Type : 'UI.DataField',
+                Value : TermsOfPaymentMilestoneOnwhichPaymentWillBemade,
+                Label : 'Terms Of Payment & Milestone On Which Payment Will Be Made',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ProductServiceDescriptionBackground,
+                Label : 'Product Service Description Background',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : VendorsLatestAvailableTurnover,
+                Label : 'Vendors Latest Available Turnover ( In INR Cr.) ₹',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : TotalVendorSpendforCurrentFY,
+                Label : 'Total Vendor Spend For Current FY (In INR Cr.) (Total Open Value As On NFA Date + Proposed Annual Value)₹',
+            },
+        ],
+    },
+    UI.FieldGroup #TermsandConditions : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : AmendmentInExistingPoArcContract,
+                Label : 'Amendment In Existing PO ARC Contract',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : DeviationsfromGroupPhilosophyCardinalRules,
+                Label : 'Deviations from Group Philosophy Cardinal Rules',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ListOfDeviation,
+                Label : 'List Of Deviation',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : IsThereAnyImportSupplyUnderThisProposal,
+                Label : 'Is There Any Import Supply Under This Proposal',
+            },
+            {
+                $Type : 'UI.DataField',
                 Value : ReasonForPostFactoNFAIfApplicable,
                 Label : 'Reason For Post Facto NFA ( If Applicable)',
             },
             {
                 $Type : 'UI.DataField',
-                Value : IncoTerm,
-                Label : 'Inco Term',
+                Value : IsVendorDependency,
+                Label : 'Is Vendor dependency > 50%',
             },
             {
                 $Type : 'UI.DataField',
-                Value : TermsOfPaymentMilestoneOnwhichPaymentWillBemade,
-                Label : 'Terms Of Payment & Milestone On Which Payment Will Be Made',
+                Value : RationalForAwardingContractToDependentPartner,
+                Label : 'Rational For Awarding Contract To Dependent Partner',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : FTAEPCGAnyOtherBenefitAvailedForDutySaving,
+                Label : 'FTA/EPCG/ Any Other Benefit Availed For Duty Saving',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : OrderTypePartiesContactedAndTechnicallyAccepted,
+                Label : 'Order Type Parties Contacted And Technically Accepted ( Rational If On Single Vendor Basis)',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : InternalSLAsKPIsForTheContract,
+                Label : 'Internal SLAs/KPIs For The Contract',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ContractPeriod,
+                Label : 'Contract Period',
+            },
+        ],
+    },
+    UI.FieldGroup #ItemLevelInfo : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : PenaltyClauseForQuality,
+                Label : 'Penalty Clause For Quality',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : PenaltyCriteria,
+                Label : 'Penalty Criteria',
             },
             {
                 $Type : 'UI.DataField',
@@ -412,41 +432,6 @@ annotate service.NfaVendorData with @(
                 Value : OtherKeyTerms,
                 Label : 'Other Key Terms (Eg: Warranty, Inspection Clause, GTC Deviation, Party Delivery. Etc)',
             },
-        ],
-    },
-    UI.FieldGroup #TermsandConditions : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                $Type : 'UI.DataField',
-                Value : RationalForAwardingContractToDependentPartner,
-                Label : 'Rational For Awarding Contract To Dependent Partner',
-            },
-        ],
-    },
-    UI.FieldGroup #ItemLevelInfo : {
-        $Type : 'UI.FieldGroupType',
-           Data : [
-            {
-                $Type : 'UI.DataField',
-                Value : ProductServiceDescriptionBackground,
-                Label : 'Product Service Description Background',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : ComparisonOfOffer,
-                Label : 'Comparison of Offer',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : TaxAmount,
-                Label : 'Tax Amount',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : Freight,
-                Label : 'Freight',
-            },
             {
                 $Type : 'UI.DataField',
                 Value : DeliveryLeadTime,
@@ -469,13 +454,13 @@ annotate service.NfaVendorItemsDetails with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : HsnOrSacCode,
-            Label : 'HSN or SAC Code',
+            Value : ItemShortDescription,
+            Label : 'Item Short Description',
         },
         {
             $Type : 'UI.DataField',
-            Value : ItemShortDescription,
-            Label : 'Item Short Description',
+            Value : UnitPrice,
+            Label : 'Unit Price',
         },
         {
             $Type : 'UI.DataField',
@@ -489,8 +474,23 @@ annotate service.NfaVendorItemsDetails with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : UnitPrice,
-            Label : 'Unit Price',
+            Value : Rank,
+            Label : 'Rank',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : IndianTaxPER,
+            Label : 'Tax %',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : HsnOrSacCode,
+            Label : 'HSN or SAC Code',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : Freight,
+            Label : 'Freight',
         },
     ]
 );

@@ -8,51 +8,46 @@ using {
 entity NfaDetails {
     key NfaNumber                                  : String default 'def';
         //listPage//
-        BUORPurchasingGroup                        : String;
-        PlantCode                                  : String;
-        Status                                     : String;
+        BUORPurchasingGroup                        : String @UI.Hidden;//
+        // PlantCode                                  : String;
+        Status                                     : String;//
         //listPage//
         //General Details//
-        SBUUnitLocation                            : String;
-        AmendmentInExistingPoArcContract           : Boolean;
-        PricingInBusinessPlanIfApplicable          : String;
-        PriceJustification                         : String;
-        DeviationsfromGroupPhilosophyCardinalRules : Boolean;
-        ListOfDeviation                            : String;
-        PenaltyClauseForQuality                    : String;
-        PenaltyCriteria                            : String;
-        RationaleIfNotL1                           : String;
-        NFAID                                      : String;
-        ApprovingPlant                             : String;
-        ExistingPoNumber                           : String;
+        ProjectDescription                         : String;//
+        SubjectofProposalOROrder                   : String;//
+        BaseLineSpend                              : String;//
+        ProjectCurrencyORBaseCurrency              : String;//
+        FinalProposedValue                         : String;//
+        SavingsAchievedBtwInitialAndFinalQuote     : String;//
+        RfpNumber                                  : String;//WSid
+        RfpPublishDate                             : String;//
+        TimeTakenForFinalizationDASHInDAYS         : String;//
+        SBUUnitLocation                            : String;//
+        AuctionDone                              : Boolean;//
+        
+        // NFAID                                      : String;
+        ApprovingPlant                             : String;//
+        // ExistingPoNumber                           : String;
         //General Details//
         //Header Leavel Info//
-        AmendmentValueTotalNfaAmount               : String;
-        Budget                                     : String;
-        RationalForNotDoingAuction                 : Boolean;
-        IsAnyNewInitiativeBestpractices            : String;
-        NegotiationCommittee                       : String;
-        IsThereAnyImportSupplyUnderThisProposal    : Boolean;
-        LastPurchasePriceClpp                      : String;
-        SavingIncreaseAmountOnLpp                  : String;
-        PricesAre                                  : String;
+        // SavingIncreaseAmountOnLpp                  : String;
+        // PricesAre                                  : String;
         //Header Leavel Info//
         //justification//
-        Comments                                   : LargeString;
+        Comments                                   : LargeString;//
         //justification//
         //missalanious//
         StatusInd                                  : Integer; //used for criticality rep
-        CreatedBy                                  : String;
-        TaskId                                     : String;
-        WorkFlowId                              : String;
+        CreatedBy                                  : String;//
+        TaskId                                     : String;//
+        WorkFlowId                              : String;//
         //missalanious//
 
 
         // SBG                                        : String;
         // SBU                                        : String;
-        // ProjectDescription                         : String;
         // PrNumberBKTsBKT                            : String;
-        // SubjectofProposalOROrder                   : String;
+        
         // PreviousPanReferences                      : String;
         // SplitOrderORNoOfvendors                    : String;
         // SopType                                    : String;
@@ -60,18 +55,12 @@ entity NfaDetails {
         // AssetType                                  : String;
         // NatureOfTransaction                        : String;
         // OrderLocationORPlant                       : String;
-        // BaseLineSpend                              : String;
-        // ProjectCurrencyORBaseCurrency              : String;
+        
         // OrderCurrencyORBidCurrency                 : String;
-        // FinalProposedValue                         : String;
-        // SavingsAchievedBtwInitialAndFinalQuote     : String;
         // SavingsAgainstBaseLineSpendOfRFP           : String;
         // NumberOfVendorsShortlistedForRFP           : String;
         // NumberOfVendorsTechnicallyQualified        : String;
         // RequiredAtSiteDate                         : String;
-        // RfpNumber                                  : String;
-        // RfpPublishDate                             : String;
-        // TimeTakenForFinalizationDASHInDAYS         : String;
         // Type                                       : String;
         // StatusA                                    : String;
         // SwitchControl                              : Boolean default false;//noooo
@@ -100,6 +89,7 @@ entity NfaDetails {
 entity NfaEventHistory {
     key idd                         : String;
     key NfaNumber                   : String;
+    key round : Int16;
         //pan web event//
         EventNo                     : String;
         Number                      : String;
@@ -110,7 +100,7 @@ entity NfaEventHistory {
 
 
         // ComparisonOfOffer           : String;
-        AuctionDone                 : Boolean;
+        // AuctionDone                 : Boolean;
         AuctionDetails              : String;
 
         NfaEventHistoryToNfaDetails : Association to one NfaDetails
@@ -120,52 +110,67 @@ entity NfaEventHistory {
 entity NfaVendorData {
     key ProposedVendorCode                              : String;
     key NfaNumber                                       : String;
+    key round                                              :Int16;
         //vendor response details//
         AwardedVendor                                   : String;
-        VendorName                                      : String;
+        VendorName                                      : String;//
         OriginalQuote                                   : String;
         FinalQuote                                      : String;
-        VendorLocation                                  : String;
-        OrderAmountOrSplitOrderAmount                   : String;
-        DiscountPercentage                              : String;
-        Rank                                            : String;
+        VendorLocation                                  : String;//
+        OrderAmountOrSplitOrderAmount                   : String;//
+        DiscountPercentage                              : String;//
+        
         //vendor response details//
         //vendor response//
-        ContractPeriod                                  : Int16;
-        OrderTypePartiesContactedAndTechnicallyAccepted : String;
-        ContractManagerName                             : String;
-        IsVendorDependency                              : Boolean;
-        VendorsLatestAvailableTurnover                  : String;
-        TotalVendorSpendforCurrentFY                    : String;
+        AmendmentInExistingPoArcContract           : Boolean;//
+        PricingInBusinessPlanIfApplicable          : String;//
+        PriceJustification                         : String;//
+        DeviationsfromGroupPhilosophyCardinalRules : Boolean;//
+        ListOfDeviation                            : String;//
+        PenaltyClauseForQuality                    : String;//
+        PenaltyCriteria                            : String;//
+        RationaleIfNotL1                           : String;//
+        AmendmentValueTotalNfaAmount               : String;//
+        Budget                                     : String;//
+        RationalForNotDoingAuction                 : Boolean;//
+        IsAnyNewInitiativeBestpractices            : String;//
+        NegotiationCommittee                       : String;//
+        IsThereAnyImportSupplyUnderThisProposal    : Boolean;//
+        LastPurchasePriceClpp                      : String;//
+        ContractPeriod                                  : Int16;///
+        OrderTypePartiesContactedAndTechnicallyAccepted : String;///
+        // ContractManagerName                             : String;
+        IsVendorDependency                              : Boolean;///
+        VendorsLatestAvailableTurnover                  : String;///
+        TotalVendorSpendforCurrentFY                    : String;///
         ShortlistedPartiesCredentialsBackground         : String;
-        InternalSLAsKPIsForTheContract                  : String;
-        ContractValueBasicValue                         : String;
-        FTAEPCGAnyOtherBenefitAvailedForDutySaving      : Boolean;
-        ApproximateDutyAmountInINR                      : String;
-        MonthlyQuantity                                 : String;
-        ReasonForPostFactoNFAIfApplicable               : String;
+        InternalSLAsKPIsForTheContract                  : String;///
+        ContractValueBasicValue                         : String;///
+        FTAEPCGAnyOtherBenefitAvailedForDutySaving      : Boolean;///
+        ApproximateDutyAmountInINR                      : String;///
+        MonthlyQuantity                                 : String;///
+        ReasonForPostFactoNFAIfApplicable               : String;///
         IncoTerm                                        : String;
-        TermsOfPaymentMilestoneOnwhichPaymentWillBemade : String;
-        PackingForwarding                               : String;
-        Insurance                                       : String;
-        LiquidatedDamages                               : String;
-        LiquidatedDamagesClause                         : String;
-        PbgAndSd                                        : String;
-        PbgAndSdClause                                  : String;
-        JobClearanceCertificates                        : String;
-        HrClearanceCertificates                         : String;
-        OtherKeyTerms                                   : String;
+        TermsOfPaymentMilestoneOnwhichPaymentWillBemade : String;///
+        PackingForwarding                               : String;///
+        Insurance                                       : String;///
+        LiquidatedDamages                               : String;///
+        LiquidatedDamagesClause                         : String;///
+        PbgAndSd                                        : String;///
+        PbgAndSdClause                                  : String;///
+        JobClearanceCertificates                        : String;///
+        HrClearanceCertificates                         : String;///
+        OtherKeyTerms                                   : String;///
         //vendor response//
         //terms and conditions//
-        RationalForAwardingContractToDependentPartner   : String;
+        RationalForAwardingContractToDependentPartner   : String;///
         //terms and conditions//
         //Item level info//
-        ProductServiceDescriptionBackground             : String;
+        ProductServiceDescriptionBackground             : String;///
         ApprovalRequestedForSubject                     : String;
         ComparisonOfOffer                               : String;
         TaxAmount                                       : String;
-        Freight                                         : String;
-        DeliveryLeadTime                                : String;
+        DeliveryLeadTime                                : String;///
         //Item level info//
 
 
@@ -228,18 +233,22 @@ entity NfaVendorItemsDetails {
     key NfaNumber                            : String;
     key ProposedVendorCode                   : String;
     key ItemCode                             : String;
+    key round :Int16;
         //item Details//
+        Rank                                            : String;//
+        Freight                                         : String;//
         HsnOrSacCode                         : String;
-        ItemShortDescription                 : String;
-        Uom                                  : String;
-        Quantity                             : String;
-        UnitPrice                            : String;
+        ItemShortDescription                 : String;//
+        Uom                                  : String;//
+        Quantity                             : String;//
+        UnitPrice                            : String;//
+        IndianTaxPER                        : String;//
         //item Details//
 
 
         // ExtendedPrice                       : String;
         // Amount                              : String;
-        // IndianTaxPER                        : String;
+        
         // QuantityOverDeliveryTolerance       : String;
 
         NfaVendorItemsDetailsToNfaVendorData : Association to one NfaVendorData
