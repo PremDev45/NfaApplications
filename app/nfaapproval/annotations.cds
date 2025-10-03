@@ -197,11 +197,7 @@ annotate service.NfaVendorData with @(
             Value : OrderAmountOrSplitOrderAmount,
             Label : 'Order Amount or Split Order Amount',
         },
-        {
-            $Type : 'UI.DataField',
-            Value : DiscountPercentage,
-            Label : 'Discount Percentage',
-        },
+        
     ],
     UI.Facets : [
         {
@@ -454,6 +450,11 @@ annotate service.NfaVendorItemsDetails with @(
         },
         {
             $Type : 'UI.DataField',
+            Value : Name,
+            Label : 'Name',
+        },
+        {
+            $Type : 'UI.DataField',
             Value : ItemShortDescription,
             Label : 'Item Short Description',
         },
@@ -491,6 +492,11 @@ annotate service.NfaVendorItemsDetails with @(
             $Type : 'UI.DataField',
             Value : Freight,
             Label : 'Freight',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : DiscountPercentage,
+            Label : 'Discount %',
         },
     ]
 );

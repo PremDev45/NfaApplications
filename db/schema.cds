@@ -41,6 +41,7 @@ entity NfaDetails {
         CreatedBy                                  : String;//
         TaskId                                     : String;//
         WorkFlowId                              : String;//
+        maxRound:Int16;
         //missalanious//
 
 
@@ -118,7 +119,7 @@ entity NfaVendorData {
         FinalQuote                                      : String;
         VendorLocation                                  : String;//
         OrderAmountOrSplitOrderAmount                   : String;//
-        DiscountPercentage                              : String;//
+        
         
         //vendor response details//
         //vendor response//
@@ -235,9 +236,11 @@ entity NfaVendorItemsDetails {
     key ItemCode                             : String;
     key round :Int16;
         //item Details//
+        Name:String;
         Rank                                            : String;//
         Freight                                         : String;//
         HsnOrSacCode                         : String;
+        DiscountPercentage                              : String;//
         ItemShortDescription                 : String;//
         Uom                                  : String;//
         Quantity                             : String;//

@@ -1,162 +1,229 @@
+const { event } = require('@sap/cds');
 const cds = require('@sap/cds');
+const { elements } = require('@sap/cds/lib/ql/cds.ql-infer');
 module.exports = cds.service.impl(async function () {
     let {
-        NfaDetails,NfaAttachments,NfaWorkflowHistory,NfaCommentsHistory
+        NfaDetails, NfaAttachments, NfaWorkflowHistory, NfaCommentsHistory, NfaVendorData, NfaEventHistory, NfaVendorItemsDetails
     } = this.entities;
     const BPA_API_KEY = process.env.API_KEY_BPA || "zjfsmNA7qc4m8kVaNyUkM7LIvaS9f9bw";
-///dhanush gangatkar
-this.on('ApproversAction',async function (req) {
-    debugger
+    ///dhanush gangatkar
+    this.before('READ', NfaEventHistory, async function (req) {
+        debugger
 
-    const BpaDest = await cds.connect.to("NfaBpaDestLev");
+        if (req.data.NfaNumber) {
+            let maxround = await SELECT.from(NfaDetails).where({ NfaNumber: req.data.NfaNumber });
+            let finalAwardees = await SELECT.from(NfaVendorData).where({ NfaNumber: req.data.NfaNumber, AwardedVendor: 'Yes', round: maxround[0].maxRound });
+            var eventData = [];
+            await finalAwardees.forEach(async element => {
+                let body = {
+                    round: maxround[0].maxRound,
+                    NfaNumber: req.data.NfaNumber,
+                    idd: element.VendorName,
+                    Date: '',
+                    L1AmountObtained: element.OrderAmountOrSplitOrderAmount
+                };
+                eventData.push(body);
+            });
+            if (maxround[0].maxRound != 1) {
+                let firstAwardees = await SELECT.from(NfaVendorItemsDetails).where({ NfaNumber: req.data.NfaNumber, Rank: '1', round: 1 });
+                let firstAwardeesres = [];
+                await firstAwardees.forEach(async element => {
+                    const index = firstAwardeesres.findIndex(item => item.ProposedVendorCode === element.ProposedVendorCode);
 
-    console.log(req);
-    if(req.data.Action == 'Approve'){
-        let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
-    await INSERT({NfaNumber:req.data.NfaNumber,Comments:nfadetupd.Comments}).into(NfaCommentsHistory);
+                    if (index !== -1) {
+                        firstAwardeesres[index].R1amt = (parseFloat(firstAwardeesres[index].R1amt) + (parseFloat(element.UnitPrice) * parseFloat(element.Quantity))).toString();
+                    } else {
+                        element.R1amt = (parseFloat(element.UnitPrice) * parseFloat(element.Quantity)).toString();
+                        firstAwardeesres.push(element);
+                    }
+                });
+               for (const element of firstAwardeesres) {
+    debugger;
+    let VendorName = await SELECT.one.from(NfaVendorData)
+                                   .where({ ProposedVendorCode: element.ProposedVendorCode });
     
-        let currentApprovers =await  SELECT.from(NfaWorkflowHistory).where({NfaNumber:req.data.NfaNumber,Status:'Pending'});
-         const diffTime = new Date() - new Date(currentApprovers[0].createdAt);
-         let DaysTaken=Math.floor(diffTime / (1000 * 60 * 60 * 24)).toString();
-         let currentApproversUpdBody = {ApprovedBy:req.user.id,
-             Status:'Approved' ,
-             DaysTaken:DaysTaken}
-        await UPDATE(NfaWorkflowHistory).set(currentApproversUpdBody).where({level:currentApprovers[0].level,NfaNumber:req.data.NfaNumber})
-        let updateNextAprovers =await UPDATE(NfaWorkflowHistory).set({Status:'Pending'}).where({level:currentApprovers[0].level+1,NfaNumber:req.data.NfaNumber});
-        if(!updateNextAprovers){
-            await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Approved',Comments:null})
-            const body = {
-    "executionId": nfadetupd.WorkFlowId,
-    "inputs": {
-        "nextlevel": 0,
-        "proceed": false
-    }
-};
-const BpaRes = await BpaDest.post('/',body);
-console.log(BpaRes);
-        }else{
-            await UPDATE(NfaDetails,req.data.NfaNumber).with({Comments:null});
-             const body = {
-               
-    "executionId": nfadetupd.WorkFlowId,
-    "inputs": {
-        "nextlevel": currentApprovers[0].level+1,
-        "proceed": true
-    }
-};
-// const BpaRes = await BpaDest.send({
-//   method: "POST",
-//   url: "/unified/v1/triggers/api/us10.b201b415trial.nfabpa.nextLevel",
-//   body: body,
-//    headers: {
-//     "Content-Type": "application/json"
-//   }
-// });
-const BpaRes = await BpaDest.post('/',body);
-console.log(BpaRes);
+    let body = {
+        round: 1,
+        NfaNumber: req.data.NfaNumber,
+        idd: VendorName.VendorName,
+        Date: '',
+        L1AmountObtained: element.R1amt
+    };
+    
+    eventData.push(body);
+}
+
+                let updateres = await UPSERT.into(NfaEventHistory, eventData);
+            }else{
+                let updateres = await UPSERT.into(NfaEventHistory, eventData);
+            console.log(updateres)
+            }
+            
         }
-        return "Done"
-    }else if(req.data.Action == 'Reject'){
-          let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
-    await INSERT({NfaNumber:req.data.NfaNumber,Comments:nfadetupd.Comments}).into(NfaCommentsHistory);
-let currentApprovers =await  SELECT.from(NfaWorkflowHistory).where({NfaNumber:req.data.NfaNumber,Status:'Pending'});
-         let diffTime = new Date() - new Date(currentApprovers[0].createdAt);
-        let DaysTaken=Math.floor(diffTime / (1000 * 60 * 60 * 24)).toString();
-         let currentApproversUpdBody = {ApprovedBy:req.user.id,
-             Status:'Rejected' ,
-             DaysTaken:DaysTaken }
-        await UPDATE(NfaWorkflowHistory).set(currentApproversUpdBody).where({level:currentApprovers[0].level,NfaNumber:req.data.NfaNumber})
-        await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Rejected',Comments:null})
-         const body = {
-    "executionId": nfadetupd.WorkFlowId,
-    "inputs": {
-        "nextlevel": 0,
-        "proceed": false
-    }
-};
-const BpaRes = await BpaDest.post('/',body);
-console.log(BpaRes);
-        return "Done"
-    }else if(req.data.Action == 'Need For Clarification'){
-let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
-    await INSERT({NfaNumber:req.data.NfaNumber,Comments:nfadetupd.Comments}).into(NfaCommentsHistory);
-    await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Need For Clarification',Comments:null})
-        return "Done"
-}
-});
-this.on('sendForApproval',async function (req) {
-debugger
-    try {
-         let nfadetupd =await SELECT.from(NfaDetails,req.data.NfaNumber);
-    await INSERT({NfaNumber:req.data.NfaNumber,Comments:nfadetupd.Comments}).into(NfaCommentsHistory);
-    if(nfadetupd.Status == 'New'){
-debugger
- const BpaDest = await cds.connect.to("NfaBpaDest");
-        const body = {
-    "definitionId": "us10.b201b415trial.nfabpa.nFABA",
-    "context": {
-        "nfanumber": req.data.NfaNumber,
-        "proceed": true
-    }
-}
-        const BpaRes = await BpaDest.post('/workflow/rest/v1/workflow-instances',body);
-           
-
-
-await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Pending For Approval',Comments:null,WorkFlowId:BpaRes.id});
-    await UPDATE(NfaWorkflowHistory).set({ Status: "Pending" }).where({NfaNumber:req.data.NfaNumber,level:1});
-    }else{
-await UPDATE(NfaDetails,req.data.NfaNumber).with({Status:'Pending For Approval',Comments:null});
-    }
-    
-    return true;
-    } catch (error) {
-        return false;
-    }
-   
-});
-this.on('validateBeforeSendForApproval',async function (req) {
-    debugger
-    let ErrorMsgs=[];
-    let NfaNumber= req.data.NfaNumber;
-    let NfaDetailsData =await SELECT.from(NfaDetails,NfaNumber);
-    if(!NfaDetailsData.Comments){
-        ErrorMsgs.push('Please enter Comments before sending for approval.');
-    }
-    return JSON.stringify(ErrorMsgs);
-})    
-this.after( 'READ',NfaDetails, async (req) => {
+    });
+    this.before('READ', NfaVendorData, async function (req) {
         // debugger
-         req.forEach(element => {
-            if(element.Status == 'Need For Clarification')
-           element.StatusInd=2;
-        else if(element.Status == 'Approved')
-           element.StatusInd=3;
-        else if(element.Status == 'Rejected')
-           element.StatusInd=1;
-        else if(element.Status == "Pending For Approval")
-            element.StatusInd=0;
-        else if(element.Status == "New")
-            element.StatusInd=0;
+        if (req.data.NfaNumber) {
+            let maxround = await SELECT.from(NfaDetails).where({ NfaNumber: req.data.NfaNumber });
+            req.query.where({ round: maxround[0].maxRound });
+        }
+    });
+    this.on('ApproversAction', async function (req) {
+        debugger
+
+        const BpaDest = await cds.connect.to("NfaBpaDestLev");
+
+        console.log(req);
+        if (req.data.Action == 'Approve') {
+            let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
+            await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
+
+            let currentApprovers = await SELECT.from(NfaWorkflowHistory).where({ NfaNumber: req.data.NfaNumber, Status: 'Pending' });
+            const diffTime = new Date() - new Date(currentApprovers[0].createdAt);
+            let DaysTaken = Math.floor(diffTime / (1000 * 60 * 60 * 24)).toString();
+            let currentApproversUpdBody = {
+                ApprovedBy: req.user.id,
+                Status: 'Approved',
+                DaysTaken: DaysTaken
+            }
+            await UPDATE(NfaWorkflowHistory).set(currentApproversUpdBody).where({ level: currentApprovers[0].level, NfaNumber: req.data.NfaNumber })
+            let updateNextAprovers = await UPDATE(NfaWorkflowHistory).set({ Status: 'Pending' }).where({ level: currentApprovers[0].level + 1, NfaNumber: req.data.NfaNumber });
+            if (!updateNextAprovers) {
+                await UPDATE(NfaDetails, req.data.NfaNumber).with({ Status: 'Approved', Comments: null })
+                const body = {
+                    "executionId": nfadetupd.WorkFlowId,
+                    "inputs": {
+                        "nextlevel": 0,
+                        "proceed": false
+                    }
+                };
+                const BpaRes = await BpaDest.post('/', body);
+                console.log(BpaRes);
+            } else {
+                await UPDATE(NfaDetails, req.data.NfaNumber).with({ Comments: null });
+                const body = {
+
+                    "executionId": nfadetupd.WorkFlowId,
+                    "inputs": {
+                        "nextlevel": currentApprovers[0].level + 1,
+                        "proceed": true
+                    }
+                };
+                // const BpaRes = await BpaDest.send({
+                //   method: "POST",
+                //   url: "/unified/v1/triggers/api/us10.b201b415trial.nfabpa.nextLevel",
+                //   body: body,
+                //    headers: {
+                //     "Content-Type": "application/json"
+                //   }
+                // });
+                const BpaRes = await BpaDest.post('/', body);
+                console.log(BpaRes);
+            }
+            return "Done"
+        } else if (req.data.Action == 'Reject') {
+            let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
+            await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
+            let currentApprovers = await SELECT.from(NfaWorkflowHistory).where({ NfaNumber: req.data.NfaNumber, Status: 'Pending' });
+            let diffTime = new Date() - new Date(currentApprovers[0].createdAt);
+            let DaysTaken = Math.floor(diffTime / (1000 * 60 * 60 * 24)).toString();
+            let currentApproversUpdBody = {
+                ApprovedBy: req.user.id,
+                Status: 'Rejected',
+                DaysTaken: DaysTaken
+            }
+            await UPDATE(NfaWorkflowHistory).set(currentApproversUpdBody).where({ level: currentApprovers[0].level, NfaNumber: req.data.NfaNumber })
+            await UPDATE(NfaDetails, req.data.NfaNumber).with({ Status: 'Rejected', Comments: null })
+            const body = {
+                "executionId": nfadetupd.WorkFlowId,
+                "inputs": {
+                    "nextlevel": 0,
+                    "proceed": false
+                }
+            };
+            const BpaRes = await BpaDest.post('/', body);
+            console.log(BpaRes);
+            return "Done"
+        } else if (req.data.Action == 'Need For Clarification') {
+            let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
+            await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
+            await UPDATE(NfaDetails, req.data.NfaNumber).with({ Status: 'Need For Clarification', Comments: null })
+            return "Done"
+        }
+    });
+    this.on('sendForApproval', async function (req) {
+        debugger
+        try {
+            let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
+            await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
+            if (nfadetupd.Status == 'New') {
+                debugger
+                const BpaDest = await cds.connect.to("NfaBpaDest");
+                const body = {
+                    "definitionId": "us10.b201b415trial.nfabpa.nFABA",
+                    "context": {
+                        "nfanumber": req.data.NfaNumber,
+                        "proceed": true
+                    }
+                }
+                const BpaRes = await BpaDest.post('/workflow/rest/v1/workflow-instances', body);
+
+
+
+                await UPDATE(NfaDetails, req.data.NfaNumber).with({ Status: 'Pending For Approval', Comments: null, WorkFlowId: BpaRes.id });
+                await UPDATE(NfaWorkflowHistory).set({ Status: "Pending" }).where({ NfaNumber: req.data.NfaNumber, level: 1 });
+            } else {
+                await UPDATE(NfaDetails, req.data.NfaNumber).with({ Status: 'Pending For Approval', Comments: null });
+            }
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+
+    });
+    this.on('validateBeforeSendForApproval', async function (req) {
+        debugger
+        let ErrorMsgs = [];
+        let NfaNumber = req.data.NfaNumber;
+        let NfaDetailsData = await SELECT.from(NfaDetails, NfaNumber);
+        if (!NfaDetailsData.Comments) {
+            ErrorMsgs.push('Please enter Comments before sending for approval.');
+        }
+        return JSON.stringify(ErrorMsgs);
+    })
+    this.after('READ', NfaDetails, async (req) => {
+        // debugger
+        req.forEach(element => {
+            if (element.Status == 'Need For Clarification')
+                element.StatusInd = 2;
+            else if (element.Status == 'Approved')
+                element.StatusInd = 3;
+            else if (element.Status == 'Rejected')
+                element.StatusInd = 1;
+            else if (element.Status == "Pending For Approval")
+                element.StatusInd = 0;
+            else if (element.Status == "New")
+                element.StatusInd = 0;
         });
     });
-    this.after( 'READ',NfaAttachments, async (req,req1) => {
+    this.after('READ', NfaAttachments, async (req, req1) => {
         debugger
         req.forEach(element => {
-            if(this.path == "/odata/v4/nfa-approval")
-           element.Url=`${this.path}/NfaAttachments(ID=${element.ID},NfaNumber='${element.NfaNumber}')/Content`; 
-        else
-        element.Url=`${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=true,NfaNumber='${element.NfaNumber}')/Content`; 
+            if (this.path == "/odata/v4/nfa-approval")
+                element.Url = `${this.path}/NfaAttachments(ID=${element.ID},NfaNumber='${element.NfaNumber}')/Content`;
+            else
+                element.Url = `${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=true,NfaNumber='${element.NfaNumber}')/Content`;
         });
     });
-    this.after('READ','NfaAttachments.drafts', async (attachments, req) => {
+    this.after('READ', 'NfaAttachments.drafts', async (attachments, req) => {
         debugger
-          attachments.forEach(element => {
-           element.Url=`${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=false,NfaNumber='${element.NfaNumber}')/Content`; 
+        attachments.forEach(element => {
+            element.Url = `${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=false,NfaNumber='${element.NfaNumber}')/Content`;
         });
     });
-    
-///dhanush gangatkar
+
+    ///dhanush gangatkar
 
 
 
@@ -186,7 +253,7 @@ this.after( 'READ',NfaDetails, async (req) => {
         const meta = await BpaDest2.send({
             method: 'POST', path: '/unified/v1/triggers/api/us10.b201b415trial.nfabpa.nextLevel',
             headers: {
-                'APIKey': process.env.API_KEY_BPA 
+                'APIKey': process.env.API_KEY_BPA
             },
             data: body
         })
