@@ -1,4 +1,5 @@
 const { event } = require('@sap/cds');
+const { test } = require('@sap/cds');
 const cds = require('@sap/cds');
 const { elements } = require('@sap/cds/lib/ql/cds.ql-infer');
 module.exports = cds.service.impl(async function () {
@@ -7,8 +8,275 @@ module.exports = cds.service.impl(async function () {
     } = this.entities;
     const BPA_API_KEY = process.env.API_KEY_BPA || "zjfsmNA7qc4m8kVaNyUkM7LIvaS9f9bw";
     ///dhanush gangatkar
+
+
+
+    const DocumentBase = {
+        securityMaterial: "AribaEvents",
+        query: "realm=PEOLSOLUTIONSDSAPP-T&user=puser1&apikey=RuU300xzEClMIpw8UBalRGERG9LQZcHG&passwordAdapter=PasswordAdapter1"
+    };
+
+    const AttachmentContentUrlBase = {
+        securityMaterial: "AribaEvents",
+        query: "fieldId=<fieldId>&realm=PEOLSOLUTIONSDSAPP-T&user=puser1&passwordAdapter=PasswordAdapter1&alternativeId=<alternativeId>&itemId=<itemId>&apikey=RuU300xzEClMIpw8UBalRGERG9LQZcHG"
+    };
+
+    var AttachmentsUrl = "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/<docId>/supplierBids/<invitationId>"
+
+
+    var AttachmentContentUrl = "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/<eventId>/supplierBids/<invitationId>/attachments/<attachmentId>/content"
+    this.on('getHrJob', async function (req) {
+        //debugger
+
+        let docId = "Doc85279386";
+        let invitationId = "ACM_757720";
+
+        // let docId = req.data.NfaNumber
+        // let invitationId = req.data.invitationId;
+
+
+
+        var NfaAriba = await cds.connect.to("NfaAriba");
+        var NfaAribaAttachmnet = await cds.connect.to("NfaAribaAttachmnet");
+        var AttachmentsUrlBody = {
+            ...DocumentBase,
+            // url: AttachmentsUrl.replace("<docId>", req.data.NfaNumber)
+            url: AttachmentsUrl
+                .replace("<docId>", docId)
+                .replace("<invitationId>", invitationId)
+            // url: "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/Doc85279386/supplierBids/ACM_757720"
+        }
+        // console.log("SourcingProjectDocsBody", SourcingProjectDocsBody)
+        var AttachmentsUrlResult = await NfaAriba.post('/', AttachmentsUrlBody);
+
+
+
+        const hrArray = [];
+
+        AttachmentsUrlResult.payload.forEach(payloadItem => {
+            if (payloadItem.item?.title === "HR Clearance Certificates") {
+                const term = payloadItem.item.terms?.find(t => t.title === "HR Clearance Certificates");
+
+                if (term?.value?.attachmentValue?.id) {
+                    hrArray.push({
+                        attachmentId: term.value.attachmentValue.id,
+                        fieldId: term.fieldId,
+                        alternativeId: payloadItem.alternativeId,
+                        itemId: payloadItem.item.itemId
+                    });
+                }
+            }
+        });
+
+        console.log(hrArray);
+
+        for (const item of hrArray) {
+            const AttachmentsContentUrlBody = {
+                url: AttachmentContentUrl
+                    .replace("<eventId>", docId)       // replace eventId
+                    .replace("<invitationId>", invitationId) // replace invitationId
+                    .replace("<attachmentId>", item.attachmentId), // replace attachmentId
+                query: AttachmentContentUrlBase.query
+                    .replace("<fieldId>", item.fieldId)
+                    .replace("<alternativeId>", item.alternativeId)
+                    .replace("<itemId>", item.itemId),
+                securityMaterial: AttachmentContentUrlBase.securityMaterial
+
+
+            };
+
+            debugger
+            // Call API for each attachment
+            let AttachmentContentUrlResult = await NfaAribaAttachmnet.post('/', AttachmentsContentUrlBody);
+
+
+            return AttachmentContentUrlResult;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+    });
+
+   
+    this.on('getJobClearanceCertificate', async function (req) {
+        //debugger
+
+        let docId = "Doc85279386";
+        let invitationId = "ACM_757720";
+
+        // let docId = req.data.NfaNumber
+        // let invitationId = req.data.invitationId;
+
+
+
+        var NfaAriba = await cds.connect.to("NfaAriba");
+        var NfaAribaAttachmnet = await cds.connect.to("NfaAribaAttachmnet");
+        var AttachmentsUrlBody = {
+            ...DocumentBase,
+            // url: AttachmentsUrl.replace("<docId>", req.data.NfaNumber)
+            url: AttachmentsUrl
+                .replace("<docId>", docId)
+                .replace("<invitationId>", invitationId)
+            // url: "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/Doc85279386/supplierBids/ACM_757720"
+        }
+        // console.log("SourcingProjectDocsBody", SourcingProjectDocsBody)
+        var AttachmentsUrlResult = await NfaAriba.post('/', AttachmentsUrlBody);
+
+
+
+        const hrArray = [];
+
+        AttachmentsUrlResult.payload.forEach(payloadItem => {
+            if (payloadItem.item?.title === "Job Clearance Certificates") {
+                const term = payloadItem.item.terms?.find(t => t.title === "Job Clearance Certificates");
+
+                if (term?.value?.attachmentValue?.id) {
+                    hrArray.push({
+                        attachmentId: term.value.attachmentValue.id,
+                        fieldId: term.fieldId,
+                        alternativeId: payloadItem.alternativeId,
+                        itemId: payloadItem.item.itemId
+                    });
+                }
+            }
+        });
+
+        console.log(hrArray);
+
+        for (const item of hrArray) {
+            const AttachmentsContentUrlBody = {
+                url: AttachmentContentUrl
+                    .replace("<eventId>", docId)       // replace eventId
+                    .replace("<invitationId>", invitationId) // replace invitationId
+                    .replace("<attachmentId>", item.attachmentId), // replace attachmentId
+                query: AttachmentContentUrlBase.query
+                    .replace("<fieldId>", item.fieldId)
+                    .replace("<alternativeId>", item.alternativeId)
+                    .replace("<itemId>", item.itemId),
+                securityMaterial: AttachmentContentUrlBase.securityMaterial
+
+
+            };
+
+            // Call API for each attachment
+            let AttachmentContentUrlResult = await NfaAribaAttachmnet.post('/', AttachmentsContentUrlBody);
+            debugger
+            return AttachmentContentUrlResult;
+
+
+
+
+
+            // console.log("AttachmentsUrlResult", AttachmentsUrlResult);
+
+
+
+        }
+
+    });
+    this.on('getInsurance', async function (req) {
+        //debugger
+
+        let docId = "Doc85279386";
+        let invitationId = "ACM_757720";
+
+        // let docId = req.data.NfaNumber
+        // let invitationId = req.data.invitationId;
+
+
+
+        var NfaAriba = await cds.connect.to("NfaAriba");
+        var NfaAribaAttachmnet = await cds.connect.to("NfaAribaAttachmnet");
+        var AttachmentsUrlBody = {
+            ...DocumentBase,
+            // url: AttachmentsUrl.replace("<docId>", req.data.NfaNumber)
+            url: AttachmentsUrl
+                .replace("<docId>", docId)
+                .replace("<invitationId>", invitationId)
+            // url: "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/Doc85279386/supplierBids/ACM_757720"
+        }
+        // console.log("SourcingProjectDocsBody", SourcingProjectDocsBody)
+        var AttachmentsUrlResult = await NfaAriba.post('/', AttachmentsUrlBody);
+
+
+
+        const hrArray = [];
+
+        AttachmentsUrlResult.payload.forEach(payloadItem => {
+            if (payloadItem.item?.title === "Insurance") {
+                const term = payloadItem.item.terms?.find(t => t.title === "Insurance");
+
+                if (term?.value?.attachmentValue?.id) {
+                    hrArray.push({
+                        attachmentId: term.value.attachmentValue.id,
+                        fieldId: term.fieldId,
+                        alternativeId: payloadItem.alternativeId,
+                        itemId: payloadItem.item.itemId
+                    });
+                }
+            }
+        });
+
+        console.log(hrArray);
+
+        for (const item of hrArray) {
+            const AttachmentsContentUrlBody = {
+                url: AttachmentContentUrl
+                    .replace("<eventId>", docId)       // replace eventId
+                    .replace("<invitationId>", invitationId) // replace invitationId
+                    .replace("<attachmentId>", item.attachmentId), // replace attachmentId
+                query: AttachmentContentUrlBase.query
+                    .replace("<fieldId>", item.fieldId)
+                    .replace("<alternativeId>", item.alternativeId)
+                    .replace("<itemId>", item.itemId),
+                securityMaterial: AttachmentContentUrlBase.securityMaterial
+
+
+            };
+
+            // Call API for each attachment
+            let AttachmentContentUrlResult = await NfaAribaAttachmnet.post('/', AttachmentsContentUrlBody);
+            debugger
+            return AttachmentContentUrlResult;
+
+
+
+
+
+            // console.log("AttachmentsUrlResult", AttachmentsUrlResult);
+
+
+
+        }
+
+    });
+
+     this.on('getVendorData', async function (req) {
+        console.log("reqxssssssssssssxxssxxssx");
+        let { NfaNumber, ProposedVendorCode, round } = req.data;
+        const vendorData = await SELECT.from(NfaVendorData).where({
+            NfaNumber: NfaNumber,
+            ProposedVendorCode: ProposedVendorCode,
+            round: round
+        })
+        console.log("reqxssssssssssssxxssxxssxpppppppppppppp",vendorData);
+        return JSON.stringify(vendorData);
+
+    })
+
     this.before('READ', NfaEventHistory, async function (req) {
-        debugger
+        // ////debugger
 
         if (req.data.NfaNumber) {
             let maxround = await SELECT.from(NfaDetails).where({ NfaNumber: req.data.NfaNumber });
@@ -37,39 +305,46 @@ module.exports = cds.service.impl(async function () {
                         firstAwardeesres.push(element);
                     }
                 });
-               for (const element of firstAwardeesres) {
-    debugger;
-    let VendorName = await SELECT.one.from(NfaVendorData)
-                                   .where({ ProposedVendorCode: element.ProposedVendorCode });
-    
-    let body = {
-        round: 1,
-        NfaNumber: req.data.NfaNumber,
-        idd: VendorName.VendorName,
-        Date: '',
-        L1AmountObtained: element.R1amt
-    };
-    
-    eventData.push(body);
-}
+                for (const element of firstAwardeesres) {
+                    // ////debugger;
+                    let VendorName = await SELECT.one.from(NfaVendorData)
+                        .where({ ProposedVendorCode: element.ProposedVendorCode });
+
+                    let body = {
+                        round: 1,
+                        NfaNumber: req.data.NfaNumber,
+                        idd: VendorName.VendorName,
+                        Date: '',
+                        L1AmountObtained: element.R1amt
+                    };
+
+                    eventData.push(body);
+                }
 
                 let updateres = await UPSERT.into(NfaEventHistory, eventData);
-            }else{
+            } else {
                 let updateres = await UPSERT.into(NfaEventHistory, eventData);
-            console.log(updateres)
+                console.log(updateres)
             }
-            
+
         }
     });
     this.before('READ', NfaVendorData, async function (req) {
-        // debugger
+        //debugger
         if (req.data.NfaNumber) {
             let maxround = await SELECT.from(NfaDetails).where({ NfaNumber: req.data.NfaNumber });
             req.query.where({ round: maxround[0].maxRound });
         }
     });
+    this.before('READ', 'NfaVendorData.drafts', async function (req) {
+        //debugger
+        if (req.data.NfaNumber) {
+            let maxround = await SELECT.from(NfaDetails.drafts).where({ NfaNumber: req.data.NfaNumber });
+            req.query.where({ round: maxround[0].maxRound });
+        }
+    });
     this.on('ApproversAction', async function (req) {
-        debugger
+        ////debugger
 
         const BpaDest = await cds.connect.to("NfaBpaDestLev");
 
@@ -152,12 +427,12 @@ module.exports = cds.service.impl(async function () {
         }
     });
     this.on('sendForApproval', async function (req) {
-        debugger
+        ////debugger
         try {
             let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
             await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
             if (nfadetupd.Status == 'New') {
-                debugger
+                ////debugger
                 const BpaDest = await cds.connect.to("NfaBpaDest");
                 const body = {
                     "definitionId": "us10.b201b415trial.nfabpa.nFABA",
@@ -183,7 +458,7 @@ module.exports = cds.service.impl(async function () {
 
     });
     this.on('validateBeforeSendForApproval', async function (req) {
-        debugger
+        ////debugger
         let ErrorMsgs = [];
         let NfaNumber = req.data.NfaNumber;
         let NfaDetailsData = await SELECT.from(NfaDetails, NfaNumber);
@@ -193,7 +468,7 @@ module.exports = cds.service.impl(async function () {
         return JSON.stringify(ErrorMsgs);
     })
     this.after('READ', NfaDetails, async (req) => {
-        // debugger
+        ////debugger
         req.forEach(element => {
             if (element.Status == 'Need For Clarification')
                 element.StatusInd = 2;
@@ -207,17 +482,23 @@ module.exports = cds.service.impl(async function () {
                 element.StatusInd = 0;
         });
     });
-    this.after('READ', NfaAttachments, async (req, req1) => {
-        debugger
+    this.before('READ', NfaAttachments, async function (req) {
+        ////debugger
+    })
+    this.after('READ', NfaAttachments, async function (req, req1) {
+        ////debugger
+        console.log("reqqqq", req)
         req.forEach(element => {
             if (this.path == "/odata/v4/nfa-approval")
                 element.Url = `${this.path}/NfaAttachments(ID=${element.ID},NfaNumber='${element.NfaNumber}')/Content`;
             else
                 element.Url = `${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=true,NfaNumber='${element.NfaNumber}')/Content`;
+            console.log("urlllllllllllll", element.Url)
         });
+
     });
     this.after('READ', 'NfaAttachments.drafts', async (attachments, req) => {
-        debugger
+        ////debugger
         attachments.forEach(element => {
             element.Url = `${this.path}/NfaAttachments(ID=${element.ID},IsActiveEntity=false,NfaNumber='${element.NfaNumber}')/Content`;
         });

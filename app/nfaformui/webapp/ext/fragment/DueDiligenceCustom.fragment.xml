@@ -1,0 +1,69 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+
+    <VBox id="_IDGenVBox5"
+        class="sapUiSmallMargin"
+        renderType="Bare">
+
+        <!-- Dropdown 1: Company Details -->
+        <Label id="_IDGenLabel1" text="Company Details" labelFor="companyCombo"/>
+        <ComboBox
+            id="companyCombo"
+            placeholder="Select Company Detail">
+            <core:Item id="_IDGenItem" key="CompanyName" text="Company Name: Hi tech Computers"/>
+            <core:Item id="_IDGenItem1" key="CompanyAddress" text="Company Address: Kalyan Nagar"/>
+            <core:Item id="_IDGenItem2" key="CompanyCity" text="Company City: Banglore"/>
+            <core:Item id="_IDGenItem3" key="CompanyState" text="Company State: Karnataka"/>
+            <core:Item id="_IDGenItem4" key="CompanyPincode" text="Company Pincode: 560043"/>
+            <core:Item id="_IDGenItem5" key="CompanyCountry" text="Company Country: India"/>
+            <core:Item id="_IDGenItem6" key="ClassOfCompany" text="Class of Company: IT"/>
+            <core:Item id="_IDGenItem7" key="CompanyActivity" text="Company Activity: The company is engaged in providing construction services specializing in Civil, Structural for commercial, industrial & residential projects"/>
+            <core:Item id="_IDGenItem8" key="NICCode" text="NIC Code: 41001"/>
+            <core:Item id="_IDGenItem9" key="NICDescription" text="NIC Code Description: Construction of buildings carried out on own-account basis or on a fee or contract basis"/>
+            <core:Item id="_IDGenItem10" key="CompanyStatus" text="Company Status: Active"/>
+            <core:Item id="_IDGenItem11" key="DateOfIncorporation" text="Date of Incorporation: 1/1/2010"/>
+            <core:Item id="_IDGenItem12" key="AgeOfCompany" text="Age of Company: 15"/>
+            <core:Item id="_IDGenItem13" key="ListingStatus" text="Listing Status: Unlisted"/>
+            <core:Item id="_IDGenItem14" key="DateOfLastBalanceSheet" text="Date of Last Balance Sheet: 3/31/2025"/>
+            <core:Item id="_IDGenItem15" key="DateOfLastAGM" text="Date of Last Annual General Meeting: 8/31/2025"/>
+            <core:Item id="_IDGenItem16" key="AuthorizedCapital" text="Authorized Capital: 100000"/>
+            <core:Item id="_IDGenItem17" key="PaidUpCapital" text="Paid Up Capital: 100000"/>
+            <core:Item id="_IDGenItem18" key="ManagementDetails" text="Management Details: Kunal Chaturvedi, Yatendra Kumar Singh"/>
+            <core:Item id="_IDGenItem19" key="CompanyNumber" text="Company Number: 982737630"/>
+            <core:Item id="_IDGenItem20" key="CompanyEmail" text="Company Email: hitechcomputers@gmail.com"/>
+            <core:Item id="_IDGenItem21" key="CompanyWebsite" text="Company Website: https://hitechcomputers"/>
+            <core:Item id="_IDGenItem22" key="Comments" text="Comments"/>
+        </ComboBox>
+
+        <!-- Dropdown 2: Risk Metrix -->
+        <Label id="_IDGenLabel2" text="Risk Metrix" labelFor="riskMetrixCombo"/>
+        <ComboBox
+            id="riskMetrixCombo"
+            placeholder="Select Risk Metrix">
+            <core:Item id="_IDGenItem23" key="RiskScore" text="Risk Score: 65"/>
+            <core:Item id="_IDGenItem24" key="RiskGrade" text="Risk Grade: RX3"/>
+            <core:Item id="_IDGenItem25" key="Description" text="Description: Below Average Counterparty Risk"/>
+        </ComboBox>
+
+        <!-- Dropdown 3: Grade RX8 -->
+        <Label id="_IDGenLabel3" text="Grade RX8" labelFor="gradeCombo"/>
+        <ComboBox
+            id="gradeCombo"
+            placeholder="Select Grade">
+            <core:Item id="_IDGenItem26" key="Grade1" text="Min Score: 0"/>
+            <core:Item id="_IDGenItem27" key="MaxScore1" text="Max Score: 30"/>
+            <core:Item id="_IDGenItem28" key="GradeDesc1" text="Grade Description: Highest Counterparty Risk"/>
+            <core:Item id="_IDGenItem29" key="Category1" text="Category: Critical"/>
+            <!-- Additional Grades -->
+            <core:Item id="_IDGenItem30" key="Grade2" text="Min Score: 31"/>
+            <core:Item id="_IDGenItem31" key="MaxScore2" text="Max Score: 60"/>
+            <core:Item id="_IDGenItem32" key="GradeDesc2" text="Grade Description: Medium Counterparty Risk"/>
+            <core:Item id="_IDGenItem33" key="Category2" text="Category: Moderate"/>
+            <core:Item id="_IDGenItem34" key="Grade3" text="Min Score: 61"/>
+            <core:Item id="_IDGenItem35" key="MaxScore3" text="Max Score: 100"/>
+            <core:Item id="_IDGenItem36" key="GradeDesc3" text="Grade Description: Low Counterparty Risk"/>
+            <core:Item id="_IDGenItem37" key="Category3" text="Category: Safe"/>
+        </ComboBox>
+
+    </VBox>
+</core:FragmentDefinition>
+

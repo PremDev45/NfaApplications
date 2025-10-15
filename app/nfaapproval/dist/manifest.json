@@ -256,7 +256,8 @@
                   "tableSettings": {
                     "type": "GridTable",
                     "personalization": {
-                      "filter": false
+                      "filter": false,
+                      "sort": true
                     }
                   }
                 },

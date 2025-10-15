@@ -1,4 +1,6 @@
 ### GET request to trigger getDataForUserAndProject
 
-GET http://localhost:46661/odata/v4/nfa-approval/ApproversAction(NfaNumber='Doc123',Action='Reject')
+# GET http://localhost:46661/odata/v4/nfa-approval/ApproversAction(NfaNumber='Doc123',Action='Reject')
+# Accept: application/json
+GET http://localhost:4004/odata/v4/NfaForm/getHrJob(NfaNumber='Doc85641604')
 Accept: application/json

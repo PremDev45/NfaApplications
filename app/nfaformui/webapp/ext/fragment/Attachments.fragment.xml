@@ -3,8 +3,6 @@
 		<upload:UploadSet
 					id="uploadSet"
 					httpRequestMethod="Put"
-					instantUpload="false"
-					uploadEnabled="false"
 					mode="None"
 					showIcons="true"
 					afterItemAdded="handler.onAfterItemAdded"

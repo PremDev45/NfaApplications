@@ -10,18 +10,20 @@
     "@sap-cloud-sdk/http-client": "^4.1.1",
     "@sap-cloud-sdk/resilience": "^4.1.1",
     "@sap/cds": "^9",
+    "buffer": "^6.0.3",
     "express": "^4"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "@cap-js/cds-test": "^0.4.0",
     "@cap-js/cds-types": "^0.13.0",
     "@cap-js/sqlite": "^2",
     "@sap/cds-dk": ">=8",
     "cds-plugin-ui5": "^0.13.0",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "mbt": "^1.2.29",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",
@@ -44,6 +46,18 @@
         "kind": "odata",
         "credentials": {
           "destination": "NfaBpaDestLev"
+        }
+      },
+      "NfaAriba": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "NfaAriba"
+        }
+      },
+      "NfaAribaAttachmnet": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "NfaAribaAttachmnet"
         }
       }
     }
