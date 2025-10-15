@@ -192,7 +192,7 @@ annotate service.NfaDetails with @(
             {
                 $Type : 'UI.DataField',
                 Value : BaseLanguage,
-                Label : 'BaseLanguage',
+                Label : 'Base Language',
             },
             {
                 $Type : 'UI.DataField',
@@ -222,7 +222,7 @@ annotate service.NfaDetails with @(
             {
                 $Type : 'UI.DataField',
                 Value : TargetSavings,
-                Label : 'TargetSavings',
+                Label : 'Target Savings',
             },
             {
                 $Type : 'UI.DataField',
@@ -232,12 +232,12 @@ annotate service.NfaDetails with @(
             {
                 $Type : 'UI.DataField',
                 Value : LastModified,
-                Label : 'LastModified',
+                Label : 'Last Modified',
             },
             {
                 $Type : 'UI.DataField',
                 Value : AnticipatedContractEffectiveDate,
-                Label : 'AnticipatedContractEffectiveDate',
+                Label : 'Anticipated Contract Effective Date',
             },
         ],
     },
@@ -363,9 +363,15 @@ annotate service.NfaVendorData with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Grades',
+            Label : 'Rx Grades',
             ID : 'Grades',
             Target : 'NfaVendorDataToNfaVendorDueDeligenceDetailsGrade/@UI.LineItem#Grades',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Risk Metrix',
+            ID : 'RiskMetrix',
+            Target : '@UI.FieldGroup#RiskMetrix',
         },
     ],
     UI.FieldGroup #VendorResponse : {
@@ -1067,117 +1073,137 @@ annotate service.NfaVendorData with @(
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyName,
-                Label : 'CompanyName',
+                Label : 'Company Name',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyAddress,
-                Label : 'CompanyAddress',
+                Label : 'Company Address',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyCity,
-                Label : 'CompanyCity',
+                Label : 'Company City',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyState,
-                Label : 'CompanyState',
+                Label : 'Company State',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyPincode,
-                Label : 'CompanyPincode',
+                Label : 'Company Pincode',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyCountry,
-                Label : 'CompanyCountry',
+                Label : 'Company Country',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.ClassOfCompany,
-                Label : 'ClassOfCompany',
+                Label : 'Class of Company',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyActivity,
+                Label : 'Company Activity',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.NICCode,
+                Label : 'NIC Code',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.NICCodeDescription,
+                Label : 'NIC Code Description',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyStatus,
+                Label : 'Company Status',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateOfIncorporation,
+                Label : 'Date of Incorporation',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.AgeOfCompany,
+                Label : 'Age of Company',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.ListingStatus,
+                Label : 'Listing Status',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateOfLastBalanceSheet,
+                Label : 'Date of Last Balance Sheet',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateofLastAnnualGeneralMeeting,
+                Label : 'Date of Last Annual General Meeting',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.AuthorizedCapital,
+                Label : 'Authorized Capital',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.PaidUpCapital,
+                Label : 'Paid Up Capital',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.ManagementDetails,
+                Label : 'Management Details',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyNumber,
+                Label : 'Company Number',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyEmail,
+                Label : 'Company Email',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyWebsite,
+                Label : 'Company Website',
             },
             {
                 $Type : 'UI.DataField',
                 Value : NfaVendorDataToNfaVendorDueDeligenceDetails.Comments,
                 Label : 'Comments',
             },
+        ],
+    },
+    UI.FieldGroup #RiskMetrix : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
             {
                 $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.AuthorizedCapital,
-                Label : 'AuthorizedCapital',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.RiskScore,
+                Label : 'Risk Score',
             },
             {
                 $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.AgeOfCompany,
-                Label : 'AgeOfCompany',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.RiskGrade,
+                Label : 'Risk Grade',
             },
             {
                 $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyActivity,
-                Label : 'CompanyActivity',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyEmail,
-                Label : 'CompanyEmail',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyNumber,
-                Label : 'CompanyNumber',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyStatus,
-                Label : 'CompanyStatus',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.CompanyWebsite,
-                Label : 'CompanyWebsite',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateOfIncorporation,
-                Label : 'DateOfIncorporation',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateofLastAnnualGeneralMeeting,
-                Label : 'DateofLastAnnualGeneralMeeting',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.DateOfLastBalanceSheet,
-                Label : 'DateOfLastBalanceSheet',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.ListingStatus,
-                Label : 'ListingStatus',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.ManagementDetails,
-                Label : 'ManagementDetails',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.NICCode,
-                Label : 'NICCode',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.NICCodeDescription,
-                Label : 'NICCodeDescription',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.PaidUpCapital,
-                Label : 'PaidUpCapital',
+                Value : NfaVendorDataToNfaVendorDueDeligenceDetails.Description,
+                Label : 'Description',
             },
         ],
     },
@@ -1439,23 +1465,23 @@ annotate service.NfaVendorDueDeligenceDetailsGrade with @(
     UI.LineItem #Grades : [
         {
             $Type : 'UI.DataField',
-            Value : Category,
-            Label : 'Category',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : GradeDescription,
-            Label : 'GradeDescription',
+            Value : MinScore,
+            Label : 'Min Score',
         },
         {
             $Type : 'UI.DataField',
             Value : MaxScore,
-            Label : 'MaxScore',
+            Label : 'Max Score',
         },
         {
             $Type : 'UI.DataField',
-            Value : MinScore,
-            Label : 'MinScore',
+            Value : GradeDescription,
+            Label : 'Grade Description',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : Category,
+            Label : 'Category',
         },
     ]
 );
