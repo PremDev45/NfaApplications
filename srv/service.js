@@ -2,6 +2,8 @@ const { event } = require('@sap/cds');
 const { test } = require('@sap/cds');
 const cds = require('@sap/cds');
 const { elements } = require('@sap/cds/lib/ql/cds.ql-infer');
+const ExcelJS = require('exceljs');
+
 module.exports = cds.service.impl(async function () {
     let {
         NfaDetails, NfaAttachments, NfaWorkflowHistory, NfaCommentsHistory, NfaVendorData, NfaEventHistory, NfaVendorItemsDetails
@@ -25,6 +27,15 @@ module.exports = cds.service.impl(async function () {
 
 
     var AttachmentContentUrl = "https://openapi.au.cloud.ariba.com/api/sourcing-event/v2/prod/events/<eventId>/supplierBids/<invitationId>/attachments/<attachmentId>/content"
+
+    this.on('actioncallforbpa', async function (req) {
+        console.log("action call")
+    })
+
+
+    
+
+
     this.on('getHrJob', async function (req) {
         //debugger
 
@@ -108,7 +119,7 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-   
+
     this.on('getJobClearanceCertificate', async function (req) {
         //debugger
 
@@ -262,7 +273,7 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-     this.on('getVendorData', async function (req) {
+    this.on('getVendorData', async function (req) {
         console.log("reqxssssssssssssxxssxxssx");
         let { NfaNumber, ProposedVendorCode, round } = req.data;
         const vendorData = await SELECT.from(NfaVendorData).where({
@@ -270,7 +281,7 @@ module.exports = cds.service.impl(async function () {
             ProposedVendorCode: ProposedVendorCode,
             round: round
         })
-        console.log("reqxssssssssssssxxssxxssxpppppppppppppp",vendorData);
+        console.log("reqxssssssssssssxxssxxssxpppppppppppppp", vendorData);
         return JSON.stringify(vendorData);
 
     })
@@ -344,7 +355,7 @@ module.exports = cds.service.impl(async function () {
         }
     });
     this.on('ApproversAction', async function (req) {
-        ////debugger
+        debugger
 
         const BpaDest = await cds.connect.to("NfaBpaDestLev");
 
@@ -427,7 +438,7 @@ module.exports = cds.service.impl(async function () {
         }
     });
     this.on('sendForApproval', async function (req) {
-        ////debugger
+        console.log("sdjjsdkhf")
         try {
             let nfadetupd = await SELECT.from(NfaDetails, req.data.NfaNumber);
             await INSERT({ NfaNumber: req.data.NfaNumber, Comments: nfadetupd.Comments }).into(NfaCommentsHistory);
@@ -458,7 +469,7 @@ module.exports = cds.service.impl(async function () {
 
     });
     this.on('validateBeforeSendForApproval', async function (req) {
-        ////debugger
+        debugger
         let ErrorMsgs = [];
         let NfaNumber = req.data.NfaNumber;
         let NfaDetailsData = await SELECT.from(NfaDetails, NfaNumber);

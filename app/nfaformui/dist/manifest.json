@@ -254,6 +254,11 @@
                       "filter": false
                     }
                   }
+                },
+                "NfaVendorDataToNfaVendorDueDeligenceDetailsGrade/@com.sap.vocabularies.UI.v1.LineItem#Grades": {
+                  "tableSettings": {
+                    "type": "GridTable"
+                  }
                 }
               }
             }
