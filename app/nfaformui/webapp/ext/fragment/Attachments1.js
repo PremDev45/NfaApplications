@@ -50,6 +50,7 @@ sap.ui.define([
                 "MediaType": oFile.type,
                 "Size": oFile.size
             });
+            debugger;
             oModel.submitBatch("attachmentsGroup");
             oBinding.attachEventOnce("createCompleted", function (oEvent) {
                 debugger
@@ -60,8 +61,11 @@ sap.ui.define([
                 oUploader.setUploadUrl(sUploadUrlUrl);
                 oUploader.uploadItem(oItem);
                 MessageToast.show("Attachments Added");
+                // oContext.setProperty("url", sUploadUrlUrl).then(function () {
+                //     oTable.getBindingContext().requestSideEffects([{ $NavigationPropertyPath: "Attachments" }]);
+                // });
                 oContext.setProperty("url", sUploadUrlUrl).then(function () {
-                    oTable.getBindingContext().requestSideEffects([{ $NavigationPropertyPath: "Attachments" }]);
+                   loca
                 });
             });
         },

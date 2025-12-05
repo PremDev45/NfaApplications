@@ -240,7 +240,7 @@ entity NfaVendorData {
         NfaVendorDataToNfaDetails                        : Association to one NfaDetails
                                                                on NfaVendorDataToNfaDetails.NfaNumber = NfaNumber;
         NfaVendorDataToNfaVendorItemsDetails             : Composition of many NfaVendorItemsDetails
-                                                               on NfaVendorDataToNfaVendorItemsDetails.NfaVendorItemsDetailsToNfaVendorData = $self;
+                                                               on NfaVendorDataToNfaVendorItemsDetails.NfaVendorItemsDetailsToNfaVendorData= $self;
         NfaVendorDataToNfaVendorDueDeligenceDetails      : Composition of many NfaVendorDueDeligenceDetails
                                                                on NfaVendorDataToNfaVendorDueDeligenceDetails.NfaVendorDueDeligenceDetailsToNfaVendorData = $self;
 

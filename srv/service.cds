@@ -24,11 +24,11 @@ service NfaForm {
     function getJobClearanceCertificate(NfaNumber: String, invitationId: String)         returns String;
     function getInsurance(NfaNumber: String, invitationId: String)                       returns String;
     function discardNfaData(NfaNumber: String)                                           returns String;
-    function excel(NfaNumber: String)                                           returns String;
-    Action actioncallforbpa(NfaNumber: String)   returns String;
-    function validateBeforeSendForApproval(NfaNumber: String)     returns String;
-    function sendForApproval(NfaNumber: String)     returns String;
-     function ApproversAction(NfaNumber: String, Action: String)                       returns String;
+    function excel(NfaNumber: String)                                                    returns String;
+    action   actioncallforbpa(NfaNumber: String)                                         returns String;
+    function validateBeforeSendForApproval(NfaNumber: String)                            returns String;
+    function sendForApproval(NfaNumber: String)                                          returns String;
+    function ApproversAction(NfaNumber: String, Action: String)                          returns String;
     function getVendorData(ProposedVendorCode: String, NfaNumber: String, round: String) returns String;
 }
 
@@ -53,6 +53,6 @@ service NfaApproval {
     entity NfaAttachments                    as projection on db.NfaAttachments;
     entity NfaCommentsHistory                as projection on db.NfaCommentsHistory;
     entity NfaWorkflowHistory                as projection on db.NfaWorkflowHistory;
-    function ApproversAction(NfaNumber: String, Action: String)    returns String;
+    function ApproversAction(NfaNumber: String, Action: String)                          returns String;
 
 }
